@@ -23,8 +23,6 @@ class TestIncrementDictionaryValues (unittest.TestCase):
 
 pricesLst = random.sample(range(1, 10000), 1000)
 
-if
-
 class TestLoss(unittest.TestCase):
     def check_loss(self):
         self.assertLessEqual(pricesLst[2], pricesLst[1])
@@ -56,6 +54,7 @@ def date(table, date1, date2):
 
 def id(table, idNNumber):
     pass
+
 
 def url(table, urlLink):
     """ Generates SQL for a SELECT statement matching the kwargs passed. """
