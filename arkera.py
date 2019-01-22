@@ -30,15 +30,6 @@ class TestLoss(unittest.TestCase):
 
 ####################################################################################################
 
-def read(table, **kwargs):
-    """ Generates SQL for a SELECT statement matching the kwargs passed. """
-    sql = list()
-    sql.append("SELECT * FROM %s " % table)
-    if kwargs:
-        sql.append("WHERE " + " AND ".join("%s = '%s'" % (k, v) for k, v in kwargs.iteritems()))
-    sql.append(";")
-    return "".join(sql)
-
 
 def date(table, date1, date2):
     """ Generates SQL for a SELECT statement matching the kwargs passed. """
@@ -54,8 +45,21 @@ def date(table, date1, date2):
     return "".join(sql)
 
 
-def id(table, idNNumber):
-    pass
+def id(table, id_number1, id_number2):
+    """ Generates SQL for a SELECT statement matching the kwargs passed. """
+    sql = list()
+    sql.append("SELECT * FROM %s" % table)
+    if operator.equals("/"):
+        sql.append("WHERE ID BETWEEN " + id_number1 + " AND " + id_number2)
+    elif operator.equals(">"):
+        sql.append("WHERE ID > " + id_number1)
+    elif operator.equals("<"):
+        sql.append("WHERE ID < " + id_number2)
+    elif operator.equals("IN"):
+        sql.append("WHERE ID < " + id_number2)
+    elif operator.equals("NOTIN"):
+        sql.append("WHERE ID IN " + id_number2)
+    sql.append(";")
 
 
 def url(table, urlLink):
