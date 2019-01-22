@@ -54,10 +54,10 @@ def date(table, date1, date2):
     sql.append(";")
     return "".join(sql)
 
-def id():
+def id(table, idNNumber):
     pass
 
-def url(urlLink):
+def url(table, urlLink):
     """ Generates SQL for a SELECT statement matching the kwargs passed. """
     sql = list()
     sql.append("SELECT * FROM %s " % table)
@@ -66,6 +66,14 @@ def url(urlLink):
     sql.append(";")
     return "".join(sql)
 
-def rating():
+def rating(table, rating1, rating2, operator):
     """ Generates SQL for a SELECT statement matching the kwargs passed. """
-    pass
+    sql = list()
+    sql.append("SELECT * FROM %s" % table)
+    if operator.equals( "/"):
+        sql.append("WHERE RATING BETWEEN " + rating1 + " AND " + rating2)
+    elif operator.equals( ">"):
+        sql.append("WHERE RATING > " + rating1)
+    elif operator.equals( "<"):
+        sql.append("WHERE RATING < "  + rating2)
+    sql.append(";")
