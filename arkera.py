@@ -39,6 +39,7 @@ def read(table, **kwargs):
     sql.append(";")
     return "".join(sql)
 
+
 def date(table, date1, date2):
     """ Generates SQL for a SELECT statement matching the kwargs passed. """
     sql = list()
@@ -51,6 +52,7 @@ def date(table, date1, date2):
         sql.append("WHERE date BETWEEN " + "01/01/2001 " + date2)
     sql.append(";")
     return "".join(sql)
+
 
 def id(table, idNNumber):
     pass
