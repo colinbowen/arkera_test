@@ -1,48 +1,4 @@
 import unittest
-import copy
-import random
-
-
-def increment_dictionary_values(d, i):
-    x = copy.deepcopy(d)
-    for k, v in x.items():
-        x[k] = v + i
-    return x
-
-
-class TestIncrementDictionaryValues (unittest.TestCase):
-    def test_increment_dictionary_values(self):
-        d = {'a': 1}
-        dd = increment_dictionary_values(d, 1)
-        ddd = increment_dictionary_values(d, -1)
-        self.assertEqual(dd['a'], 2)
-        self.assertEqual(ddd['a'], 0)
-
-
-####################################################################################################
-
-def check_largest_loss(prices):
-    if len(prices) < 2:
-        return 0
-
-    if all(isinstance(x, int) for x in prices):
-        loss_price =  max(prices) - min(prices)
-
-    return loss_price
-
-
-class TestLoss(unittest.TestCase):
-    def check_loss(self):
-        prices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        self.assertEqual(check_largest_loss(prices), 9)
-        prices = [50, 40, 30, 20, 10, 0]
-        self.assertEqual(check_largest_loss(prices), 50)
-        prices = [100, 80, 60, 40, 20, 0]
-        self.assertEqual(check_largest_loss(prices), 100)
-
-
-####################################################################################################
-
 
 def date(table, date1, date2):
     """ Generates SQL for a SELECT statement matching the kwargs passed. """
@@ -97,6 +53,7 @@ def rating(table, rating1, rating2, operator):
     sql.append(";")
 
 
-def search_all(searches)
+def search_all(searches):
     """ SQL Builder for a SELECT statement matching the kwargs passed. """
+    pass
 
