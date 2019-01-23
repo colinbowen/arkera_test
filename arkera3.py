@@ -1,5 +1,6 @@
 import unittest
 
+
 def date(table, date1, date2):
     """ Generates SQL for a SELECT statement matching the kwargs passed. """
     sql = list()
@@ -14,7 +15,7 @@ def date(table, date1, date2):
     return "".join(sql)
 
 
-def id(table, id_number1, id_number2):
+def id(table, id_number1, id_number2, operator):
     """ Generates SQL for a SELECT statement matching the kwargs passed. """
     sql = list()
     sql.append("SELECT * FROM %s" % table)
@@ -31,14 +32,15 @@ def id(table, id_number1, id_number2):
     sql.append(";")
 
 
-def url(table, urlLink):
+def url(table, url_link):
     """ Generates SQL for a SELECT statement matching the kwargs passed. """
     sql = list()
     sql.append("SELECT * FROM %s " % table)
-    if urlLink:
-        sql.append("WHERE URL = " + urlLink )
+    if url_link:
+        sql.append("WHERE URL = " + url_link)
     sql.append(";")
     return "".join(sql)
+
 
 def rating(table, rating1, rating2, operator):
     """ Generates SQL for a SELECT statement matching the kwargs passed. """
