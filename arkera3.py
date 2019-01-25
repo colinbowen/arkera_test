@@ -1,61 +1,59 @@
-import unittest
+import pandas as pd
+import numpy as np
+import sqlite3
+from datetime import date
+
+# connect to database
+connection = sqlite3.connect("arkera.db")
+cursor = connection.cursor()
+
+# delete table if exists
+# cursor.execute("""DROP TABLE ratings;""")
+
+# create database
+sql_command = """
+ CREATE TABLE ratings (
+     id integer PRIMARY KEY,
+     url text NOT NULL,
+     date integer NOT NULL,
+     rating integer NOT NULL);"""
+
+cursor.execute(sql_command)
+
+# populate database
+ratings = "INSERT INTO ratings(id, url, date, rating) VALUES (?, ?, ?, ?)"
+cursor.execute(ratings, (1, 'http://google.com', 20170503, 5))
+cursor.execute(ratings, (2, 'http://bing.com', 20100610, 2))
+cursor.execute(ratings, (3, 'http://netflix.com', 20100710, 10))
+cursor.execute(ratings, (4, 'http://facebook.com', 20120606, 7))
+
+# commit database changes
+connection.commit()
+
+# pull into dataframe
+sql_query = "SELECT * FROM ratings"
+df = pd.read_sql(sql_query, connection)
+
+# close database connection
+connection.close()
 
 
-def date(table, date1, date2):
-    """ Generates SQL for a SELECT statement matching the kwargs passed. """
-    sql = list()
-    sql.append("SELECT * FROM %s" % table)
-    if date1 and date2:
-        sql.append("WHERE date BETWEEN " + date1 + " AND " + date2)
-    elif date1:
-        sql.append("WHERE date BETWEEN " + date1 + " < CURRENT_DATE()")
-    elif date2:
-        sql.append("WHERE date BETWEEN " + "01/01/2001 " + date2)
-    sql.append(";")
-    return "".join(sql)
+# filter dataframe depending on results wanted.
+def search(df, search):
+    df_filtered = df.query(search)
+    return df_filtered
 
+# example searches
 
-def id(table, id_number1, id_number2, operator):
-    """ Generates SQL for a SELECT statement matching the kwargs passed. """
-    sql = list()
-    sql.append("SELECT * FROM %s" % table)
-    if operator.equals("/"):
-        sql.append("WHERE ID BETWEEN " + id_number1 + " AND " + id_number2)
-    elif operator.equals(">"):
-        sql.append("WHERE ID > " + id_number1)
-    elif operator.equals("<"):
-        sql.append("WHERE ID < " + id_number2)
-    elif operator.equals("IN"):
-        sql.append("WHERE ID < " + id_number2)
-    elif operator.equals("NOTIN"):
-        sql.append("WHERE ID IN " + id_number2)
-    sql.append(";")
+new_df = df
+search1 = 'rating < 5'
+search1 = search(new_df, search1)
+print(search1)
 
+search2 = 'rating < 5 | rating > 7'
+search2 = search(new_df, search2)
+print(search2)
 
-def url(table, url_link):
-    """ Generates SQL for a SELECT statement matching the kwargs passed. """
-    sql = list()
-    sql.append("SELECT * FROM %s " % table)
-    if url_link:
-        sql.append("WHERE URL = " + url_link)
-    sql.append(";")
-    return "".join(sql)
-
-
-def rating(table, rating1, rating2, operator):
-    """ Generates SQL for a SELECT statement matching the kwargs passed. """
-    sql = list()
-    sql.append("SELECT * FROM %s" % table)
-    if operator.equals( "/"):
-        sql.append("WHERE RATING BETWEEN " + rating1 + " AND " + rating2)
-    elif operator.equals( ">"):
-        sql.append("WHERE RATING > " + rating1)
-    elif operator.equals( "<"):
-        sql.append("WHERE RATING < "  + rating2)
-    sql.append(";")
-
-
-def search_all(searches):
-    """ SQL Builder for a SELECT statement matching the kwargs passed. """
-    pass
-
+search3 = ' date > 20130101'
+search3 = search(new_df, search3)
+print(search3)
